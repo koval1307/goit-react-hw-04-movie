@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { SearchBar } from "../../components/Searchbar/Searchbar";
-import { Route, Link, Switch } from "react-router-dom";
+import {  Link} from "react-router-dom";
 import styles from "./movies.module.css";
+import apiKey from "../../services/api_key"
 
-const apiKey = "add96bc16de760017b7a79136a2ecf18";
 
 
 

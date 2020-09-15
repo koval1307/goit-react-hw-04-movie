@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-
+import apiKey from "../../services/api_key";
 import axios from "axios";
 import styles from "./cast.module.css";
 
-const apiKey = "add96bc16de760017b7a79136a2ecf18";
+
 
 export class Cast extends Component {
   state = {

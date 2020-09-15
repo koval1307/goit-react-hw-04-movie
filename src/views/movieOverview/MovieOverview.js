@@ -5,9 +5,8 @@ import axios from "axios";
 import { Route, Link, Switch } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import styles from "./movieOverview.module.css"
+import apiKey from "../../services/api_key";
 
-
-const apiKey = "add96bc16de760017b7a79136a2ecf18";
 
 
 class OverView extends Component {
