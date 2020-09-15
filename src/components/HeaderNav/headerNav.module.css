@@ -1,0 +1,17 @@
+.link {
+    margin-right: 20px;
+    text-decoration: none;
+    color: rgb(78, 78, 78);
+    text-decoration: none;
+}
+
+.active {
+    color: red;
+}
+
+.list {
+    display: flex;
+list-style: none;
+    padding: 30px;
+    margin: 0;
+}
