@@ -8,9 +8,9 @@ export const fetchMovieSearch = async (query) => {
   return res.data.results;
 };
 
-export const fetchPopularMovies =  axios.get(
-      `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`
-    );
+export const fetchPopularMovies = axios.get(
+  `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
+);
 
 export const fetchMoiveOverview =id => {
    return axios

@@ -38,7 +38,7 @@ class Movies extends Component {
   onChangeQuery = query => {
    this.props.history.push({
      ...this.props.location,
-     search: `query=${query}`,
+     search: `query=f${query}`,
    });
   };
 

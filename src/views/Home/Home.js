@@ -36,7 +36,7 @@ class HomeView extends Component {
                     
                   }}
                 >
-                  {title || name}
+                  {name|| title}
                 </Link>
               </li>
             ))}
