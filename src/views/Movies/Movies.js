@@ -2,19 +2,16 @@ import React, { Component } from "react";
 import { SearchBar } from "../../components/Searchbar/Searchbar";
 import { Link } from "react-router-dom";
 import styles from "./movies.module.css";
-import {fetchMovieSearch} from "../../services/apiService"
-import getQueryParams from "../../services/getQueryParams" 
+import { fetchMovieSearch } from "../../services/apiService";
+import getQueryParams from "../../services/getQueryParams";
 import Spinner from "../../components/Loader/Loader";
-
-
-
 
 class Movies extends Component {
   state = {
     movies: [],
-    loading:false,
+    loading: false,
   };
-  
+
   componentDidMount() {
     const { query } = getQueryParams(this.props.location.search);
     if (query) {
@@ -29,32 +26,29 @@ class Movies extends Component {
     }
   }
 
-  fetchMovies = query => {
-  fetchMovieSearch(query)
-    .then((movies) => this.setState({ movies }))
-      
-  }
+  fetchMovies = (query) => {
+    fetchMovieSearch(query).then((movies) => this.setState({ movies }));
+  };
 
-  onChangeQuery = query => {
-   this.props.history.push({
-     ...this.props.location,
-     search: `query=f${query}`,
-   });
+  onChangeQuery = (query) => {
+    this.props.history.push({
+      ...this.props.location,
+      search: `query=${query}`,
+    });
   };
 
   handleGoBack = () => {
     const { state } = this.props.location;
 
     if (state && state.from) {
-       this.props.history.push(state.from);
+      this.props.history.push(state.from);
     }
-
   };
 
   render() {
-    const { movies,loading } = this.state;
-    const {match} = this.props
-
+    const { movies, loading } = this.state;
+    const { match } = this.props;
+console.log(getQueryParams(this.props.location.search));
     return (
       <div>
         <h1 className={styles.title}>Поиск фильмов</h1>
@@ -62,13 +56,15 @@ class Movies extends Component {
         {loading && <Spinner />}
         {movies && (
           <ul className={styles.list}>
-            {movies.map(({ id, title, overview ,name}) => (
+            {movies.map(({ id, title, overview, name }) => (
               <li className={styles.list__item} key={id}>
                 <Link
                   className={styles.link}
                   to={{
                     pathname: `${match.url}/${id}`,
-                    state: { from: this.props.location },
+                    state: {
+                      from: this.props.location,
+                    search: this.props.location.search },
                   }}
                 >
                   {title || name}

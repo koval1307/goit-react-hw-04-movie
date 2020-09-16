@@ -11,24 +11,34 @@ import Spinner from "../../components/Loader/Loader";
 import { fetchMoiveOverview } from "../../services/apiService";
 
 class OverView extends Component {
-  state = {
+  state = { 
     loading: false,
     movieDetails: null,
+    historySearch: null
   };
 
   async componentDidMount() {
     const id = Number(this.props.match.params.id);
 
     const movieDetails = await fetchMoiveOverview(id);
-
+console.log(movieDetails)
     this.setState({ ...movieDetails });
+    this.setState({ historySearch: this.props.location.state.from });
+    console.log(this.state)
   }
-  handleGoBack = () => { const { state } = this.props.location;
+  handleGoBack = () => {
+    const { state } = this.props.location;
+    const {history} = this.props
+    if (this.state.historySearch) {
+      history.push(this.state.historySearch);
+      if (state) {
+        history.push(state.from);
+      }
+      else {
+         history.push("/");
+      }
+}
 
-  if (state && state.from) {
-    return this.props.history.push(state.from);
-  }
-  this.props.history.push(routes.movies);
   };
   render() {
     const {
@@ -88,7 +98,7 @@ class OverView extends Component {
             <Link
               to={{
                 pathname: `${this.props.match.url}/cast`,
-                state: { from: this.state.queryHistory },
+                state: { from: this.state.historySearch },
               }}
             >
               Casts
@@ -98,7 +108,7 @@ class OverView extends Component {
             <Link
               to={{
                 pathname: `${this.props.match.url}/reviews`,
-                state: { from: this.state.queryHistory },
+                state: { from: this.state.historySearch },
               }}
             >
               Reviews

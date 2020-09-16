@@ -5,19 +5,17 @@ import styles from "./search-form.module.css";
 
 export class SearchBar extends Component {
   state = {
-     value: " ",
+    value: " ",
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
     this.props.onSubmit(this.state.value);
- 
-    this.setState({ value: " " });
-  }
-  handleChange = (event) => {
-  
-    this.setState({ value: event.currentTarget.value });
 
+    this.setState({ value: " " });
+  };
+  handleChange = (event) => {
+    this.setState({ value: event.currentTarget.value });
   };
 
   render() {

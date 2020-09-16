@@ -12,23 +12,22 @@ export const fetchPopularMovies = axios.get(
   `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
 );
 
-export const fetchMoiveOverview =id => {
-   return axios
-      .get(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`
-      )
-      .then((res) => res.data);
-      
-}
+export const fetchMoiveOverview = id => {
+  return axios
+    .get(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`
+    )
+    .then((res) => res.data);
+};
 
-export const fetchMovieCast = id => {
-    return axios
-      .get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`)
-      .then((res) => res.data.cast);
-}
+export const fetchMovieCast = (id) => {
+  return axios
+    .get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`)
+    .then((res) => res.data.cast);
+};
 
-export const fetchMovieReviews = id => {
-    return axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${apiKey}`
-    ).then((res) => res.data.results)
-}
+export const fetchMovieReviews = (id) => {
+  return axios
+    .get(`https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${apiKey}`)
+    .then((res) => res.data.results);
+};
