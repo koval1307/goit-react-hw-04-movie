@@ -12,6 +12,7 @@
     "modern-normalize": "^1.0.0",
     "netlify-cli": "^2.63.0",
     "prop-types": "^15.7.2",
+    "query-string": "^6.13.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-loader-spinner": "^3.1.14",

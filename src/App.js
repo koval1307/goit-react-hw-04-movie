@@ -1,7 +1,8 @@
 import React, { Component, lazy, Suspense } from "react";
 import { Route,  Switch} from "react-router-dom"
 import NotFound from "./views/notfound/NotFound"
-import {HeaderNav} from "./components/HeaderNav/HeaderNav"
+import { HeaderNav } from "./components/HeaderNav/HeaderNav"
+import routes from "./services/routes"
 
 const Movies = lazy(() =>
   import("./views/Movies/Movies" /* webpackChunkName: "movies" */)
@@ -23,9 +24,9 @@ export class App extends Component {
         <Suspense fallback={<p>Still loading</p>}>
           <HeaderNav/>
           <Switch>
-            <Route exact path="/" component={HomeView} />
-            <Route exact path="/movies" component={Movies} />
-            <Route path="/movies/:id" component={OverView} />
+            <Route exact path={routes.homePage} component={HomeView} />
+            <Route exact path={routes.movies} component={Movies} />
+            <Route path={routes.moviesOverview} component={OverView} />
             <Route component={NotFound} />
           </Switch>
         </Suspense>

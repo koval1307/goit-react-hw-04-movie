@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import apiKey from "../../services/api_key";
-import axios from "axios";
-
+import {fetchMovieReviews} from "../../services/apiService"
 
 
 export class Reviews extends Component {
@@ -10,10 +8,8 @@ export class Reviews extends Component {
   };
   async componentDidMount() {
     const id = Number(this.props.match.params.id);
-    const reviews = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${apiKey}`
-    );
-    this.setState({ reviews: reviews.data.results  });
+    const reviews = await fetchMovieReviews(id)
+    this.setState({ reviews: reviews  });
  
   }
 

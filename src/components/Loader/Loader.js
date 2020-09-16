@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from "react";
+import React, { Component,} from "react";
 import Loader from "react-loader-spinner";
 import "./loader.module.css";
 class Spinner extends Component {

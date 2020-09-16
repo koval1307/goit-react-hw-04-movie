@@ -1,48 +1,46 @@
 import React, { Component } from "react";
-import { Cast } from "../Cast/Cast"
+import { Cast } from "../Cast/Cast";
 import { Reviews } from "../reviews/reviews";
-import axios from "axios";
-import { Route, Link, Switch } from "react-router-dom";
+
+import { Route, Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import styles from "./movieOverview.module.css"
-import apiKey from "../../services/api_key";
+import styles from "./movieOverview.module.css";
 
-
+import routes from "../../services/routes";
+import Spinner from "../../components/Loader/Loader";
+import { fetchMoiveOverview } from "../../services/apiService";
 
 class OverView extends Component {
   state = {
-    movieDetails:null,
+    loading: false,
+    movieDetails: null,
   };
 
   async componentDidMount() {
     const id = Number(this.props.match.params.id);
-    const movieDetails = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`
-    );
-    this.setState({ ...movieDetails.data });
-    console.log(this.state)
+
+    const movieDetails = await fetchMoiveOverview(id);
+
+    this.setState({ ...movieDetails });
   }
-  handleGoBack = () => {
-    const { state } = this.props.location;
-    const { history } = this.props;
-    if (state) {
-      history.push(state.from);
-    } else {
-      history.push("/");
-    }
+  handleGoBack = () => { const { state } = this.props.location;
+
+  if (state && state.from) {
+    return this.props.history.push(state.from);
+  }
+  this.props.history.push(routes.movies);
   };
   render() {
-    
-   
-     const {
-       original_title,
-       vote_average,
-       genres,
-       release_date,
-       overview,
-       poster_path,
-     } = this.state;
- 
+    const {
+      original_title,
+      vote_average,
+      genres,
+      release_date,
+      overview,
+      poster_path,
+      loading,
+    } = this.state;
+
     return (
       <div className={styles.container}>
         <Button
@@ -54,7 +52,7 @@ class OverView extends Component {
         >
           Go back
         </Button>
-
+        {loading && <Spinner />}
         <div className={styles.card}>
           {poster_path ? (
             <img
@@ -78,13 +76,9 @@ class OverView extends Component {
             <p>{release_date && `Release Year: ${release_date.slice(0, 4)}`}</p>
             <h2>
               Genre:{" "}
-              {genres &&
-                genres.map((el, i, array) => {
-                  if (i !== array.length - 1) {
-                    return el.name + ", ";
-                  }
-                  return el.name + ".";
-                })}
+              <ul>
+                {genres && genres.map((el) => <li key={el.id}>{el.name}</li>)}
+              </ul>
             </h2>
             <p>{overview}</p>
           </div>
@@ -94,6 +88,7 @@ class OverView extends Component {
             <Link
               to={{
                 pathname: `${this.props.match.url}/cast`,
+                state: { from: this.state.queryHistory },
               }}
             >
               Casts
@@ -103,6 +98,7 @@ class OverView extends Component {
             <Link
               to={{
                 pathname: `${this.props.match.url}/reviews`,
+                state: { from: this.state.queryHistory },
               }}
             >
               Reviews
@@ -115,4 +111,4 @@ class OverView extends Component {
     );
   }
 }
-export default OverView
+export default OverView;

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import apiKey from "../../services/api_key";
-import axios from "axios";
 import styles from "./cast.module.css";
+import { fetchMovieCast } from "../../services/apiService";
 
 
 
@@ -12,16 +11,14 @@ export class Cast extends Component {
 
   async componentDidMount() {
     const id = Number(this.props.match.params.id);
-    const cast = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`
-    );
+    const cast = await fetchMovieCast(id)
 
-    this.setState({ cast: cast.data.cast });
+    this.setState({ cast: cast });
   }
 
   render() {
     const { cast } = this.state;
-    console.log(cast);
+    
     return (
       <div>
         <h2>Cast</h2>

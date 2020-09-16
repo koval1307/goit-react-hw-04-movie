@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import Axios from "axios";
 import { SearchBar } from "../../components/Searchbar/Searchbar";
-import {  Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./movies.module.css";
-import apiKey from "../../services/api_key"
+import {fetchMovieSearch} from "../../services/apiService"
+import getQueryParams from "../../services/getQueryParams" 
+import Spinner from "../../components/Loader/Loader";
 
 
 
@@ -11,54 +12,71 @@ import apiKey from "../../services/api_key"
 class Movies extends Component {
   state = {
     movies: [],
+    loading:false,
   };
-  componentDidMount() {}
-  onChangeQuery = (query) => {
-    Axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${query}&page=1&include_adult=false`
-    ).then((response) => {
-   
-      this.setState({
-        movies: response.data.results,
-      });
-    });
+  
+  componentDidMount() {
+    const { query } = getQueryParams(this.props.location.search);
+    if (query) {
+      this.fetchMovies(query);
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    const { query: prevQuery } = getQueryParams(prevProps.location.search);
+    const { query: nextQuery } = getQueryParams(this.props.location.search);
+    if (prevQuery !== nextQuery) {
+      this.fetchMovies(nextQuery);
+    }
+  }
+
+  fetchMovies = query => {
+  fetchMovieSearch(query)
+    .then((movies) => this.setState({ movies }))
+      
+  }
+
+  onChangeQuery = query => {
+   this.props.history.push({
+     ...this.props.location,
+     search: `query=${query}`,
+   });
   };
+
   handleGoBack = () => {
     const { state } = this.props.location;
 
     if (state && state.from) {
-      return this.props.history.push(state.from);
+       this.props.history.push(state.from);
     }
 
-    this.props.history.push("/movies");
   };
 
   render() {
-    console.log(this.props.match.url);
-    const { movies } = this.state;
-    const { match } = this.props;
+    const { movies,loading } = this.state;
+    const {match} = this.props
 
     return (
       <div>
         <h1 className={styles.title}>Поиск фильмов</h1>
         <SearchBar onSubmit={this.onChangeQuery} />
-        <ul className={styles.list}>
-          {movies.map(({ id, title, overview }) => (
-            <li className={styles.list__item} key={id}>
-              <h2>
+        {loading && <Spinner />}
+        {movies && (
+          <ul className={styles.list}>
+            {movies.map(({ id, title, overview ,name}) => (
+              <li className={styles.list__item} key={id}>
                 <Link
-                   className={styles.link}
+                  className={styles.link}
                   to={{
-                    pathname: `/movies/${id}`,
+                    pathname: `${match.url}/${id}`,
                     state: { from: this.props.location },
                   }}
                 >
-                  {title}
+                  {title || name}
                 </Link>
-              </h2>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     );
   }
