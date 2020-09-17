@@ -10,17 +10,22 @@ class Movies extends Component {
   state = {
     movies: [],
     loading: false,
+    value:null,
   };
 
   componentDidMount() {
     const { query } = getQueryParams(this.props.location.search);
+    
     if (query) {
       this.fetchMovies(query);
+      // this.setState({ input: query })
+      console.log(this.props.location.search)
     }
   }
   componentDidUpdate(prevProps, prevState) {
     const { query: prevQuery } = getQueryParams(prevProps.location.search);
     const { query: nextQuery } = getQueryParams(this.props.location.search);
+    
     if (prevQuery !== nextQuery) {
       this.fetchMovies(nextQuery);
     }
@@ -31,10 +36,15 @@ class Movies extends Component {
   };
 
   onChangeQuery = (query) => {
+ 
     this.props.history.push({
       ...this.props.location,
       search: `query=${query}`,
+      
     });
+  
+    this.setState({ input: "sda" })
+    console.log(this.state)
   };
 
   handleGoBack = () => {

@@ -4,18 +4,17 @@ import Button from "@material-ui/core/Button";
 import styles from "./search-form.module.css";
 
 export class SearchBar extends Component {
-  state = {
-    value: " ",
+  state = { value: "" };
+
+  handleChange = (e) => {
+    this.setState({ value: e.target.value });
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = (e) => {
+    e.preventDefault();
+
     this.props.onSubmit(this.state.value);
-
-    this.setState({ value: " " });
-  };
-  handleChange = (event) => {
-    this.setState({ value: event.currentTarget.value });
+    this.setState({value: "" });
   };
 
   render() {
